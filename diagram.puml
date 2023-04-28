@@ -1,0 +1,50 @@
+@startuml
+set namespaceSeparator ::
+
+abstract class "dart_weather_bridge::bridge_weather.dart::WeatherService" {
+  +Future<WeatherData> getWeatherData()
+}
+
+class "dart_weather_bridge::bridge_weather.dart::OpenMeteoService" {
+  +OpenMeteoApi openMeteoApi
+  +Future<WeatherData> getWeatherData()
+}
+
+"dart_weather_bridge::bridge_weather.dart::OpenMeteoService" o-- "dart_weather_bridge::bridge_weather.dart::OpenMeteoApi"
+"dart_weather_bridge::bridge_weather.dart::WeatherService" <|-- "dart_weather_bridge::bridge_weather.dart::OpenMeteoService"
+
+class "dart_weather_bridge::bridge_weather.dart::OpenWeatherMapService" {
+  +OpenWeatherMapApi openWeatherMapApi
+  +Future<WeatherData> getWeatherData()
+}
+
+"dart_weather_bridge::bridge_weather.dart::OpenWeatherMapService" o-- "dart_weather_bridge::bridge_weather.dart::OpenWeatherMapApi"
+"dart_weather_bridge::bridge_weather.dart::WeatherService" <|-- "dart_weather_bridge::bridge_weather.dart::OpenWeatherMapService"
+
+abstract class "dart_weather_bridge::bridge_weather.dart::WeatherApi" {
+  +Future<WeatherData> getWeatherData()
+}
+
+class "dart_weather_bridge::bridge_weather.dart::OpenMeteoApi" {
+  +Future<Map<String, dynamic>> fetchWeather()
+  +Future<WeatherData> getWeatherData()
+}
+
+"dart_weather_bridge::bridge_weather.dart::WeatherApi" <|-- "dart_weather_bridge::bridge_weather.dart::OpenMeteoApi"
+
+class "dart_weather_bridge::bridge_weather.dart::OpenWeatherMapApi" {
+  +Future<Map<String, dynamic>> fetchWeather()
+  +Future<WeatherData> getWeatherData()
+}
+
+"dart_weather_bridge::bridge_weather.dart::WeatherApi" <|-- "dart_weather_bridge::bridge_weather.dart::OpenWeatherMapApi"
+
+class "dart_weather_bridge::bridge_weather.dart::WeatherData" {
+  +String? location
+  +double? temperature
+  +double? windspeed
+  +String? source
+}
+
+
+@enduml
